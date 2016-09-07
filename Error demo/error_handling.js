@@ -1,0 +1,3 @@
+/*
+	Demo that shows how to handle errors
+*/
