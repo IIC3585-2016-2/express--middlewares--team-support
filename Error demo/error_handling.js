@@ -30,15 +30,29 @@ app.use(function(err, req, res, next) {
   if(err.status == 404 ) {
     res.send("<h1>Error 404 - " + err.url + " Not found</h1>");
   }
-	else if(err.status == 401)
-	{
-		res.write("<h1>Error 401 - Unauthorized</h1>");
-		res.write("You are not authorized to access "+ err.url);
-	}
   else {
-		next();
+		next(err);
 	}
 });
+
+//handling 401 errors
+app.use(function(err, req,res,next) {
+  if(err.status == 401)
+  {
+    res.write("<h1>Error 401 - Unauthorized</h1>");
+    res.write("You are not authorized to access "+ err.url);
+  }
+  else {
+    next(err);
+  }
+});
+
+//All-catcher error
+app.use(function(err, req,res,next) {
+
+res.send("Unknown error");
+});
+
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
